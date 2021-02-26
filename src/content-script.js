@@ -18,6 +18,10 @@ const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
 
 shadowRoot.innerHTML = html;
 
+function destroyPopup() {
+
+}
+
 function updatePopup(left, top, stock) {
   const stockContainer = shadowRoot.querySelector("#stock-name-container");
   const renderedPopup = shadowRoot.querySelector("#popup");
@@ -59,16 +63,23 @@ function labelStonks() {
   }
 }
 
-function doesPopupExist() {
-  return false
+function popupExists() {
+  const popup = shadowRoot.querySelector("#stock-name-container");
+  switch(popup.style.visibility) {
+    case "visible":
+      return true
+    case "hidden":
+      return false
+  }
 }
 
 function addSingleEventListener(stonk) {
   stonk.addEventListener("mouseover", e => {
-    // if (e.target.text) {
     console.log('hover')
+    if (!popupExists()) {
+      showPopup();
+    }
     updatePopup(e.pageX, e.pageY, e.target.text);
-    // }
   });
 }
 
@@ -82,46 +93,6 @@ function addEventListenersSpecific(stonks) {
   });
 }
 
-function addEventListeners() {
-  const stonks = document.querySelectorAll(".stock-buddy-seen");
-  stonks.forEach(stonk => {
-      stonk.addEventListener("mouseover", e => {
-          // if (!doesPopupExist()) {
-          //     // createPopup(e.pageX, e.pageY);
-          //     updatePopup(e.pageX, e.pageY, e.target.text);
-          // } else {
-          //     updatePopup(e.pageX, e.pageY, e.target.text);
-          // }
-          if (e.target.text) {
-            updatePopup(e.pageX, e.pageY, e.target.text);
-          }
-        });
-        // stonk.addEventListener("mouseout", e => {
-          //     // destroyPopup();
-          //     console.log('destroy this');
-          // });
-        });
-}
-
-function mutationCallback(mutationList, observer) {
-  console.log("the mutation thing triggered")
-  mutationList.forEach( (mutation) => {
-    console.log(mutation);
-    console.log(mutation.addedNodes);
-    switch(mutation.type) {
-      case 'childList':
-        if (mutation.addedNodes.length > 0) {
-          let labelledElements = labelGivenStonks(mutation.addedNodes);
-          addEventListenersSpecific(labelledElements);
-        }
-        break;
-    }
-  })
-}
-
-// setTimeout(labelStonks, 2000);
-// setTimeout(labelStonks, 6000);
-// setTimeout(labelStonks, 10000);
 
 const observerOptions = {
   childList: true,

@@ -14,7 +14,8 @@
     "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   },
   "dependencies": {
-    "crx-hotreload": "^1.0.6"
+    "crx-hotreload": "^1.0.6",
+    "yarn": "^1.22.10"
   },
   "scripts": {
     "prebuild": "rm -rf dist .cache .parcel-cache",
