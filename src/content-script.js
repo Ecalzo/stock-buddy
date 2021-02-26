@@ -4,7 +4,7 @@ const html =
 `
 <style>${cssText}</style>
 
-<section id="popup" class="font-sans text-black z-50 w-full fixed top-0 right-0 shadow-xl new-event-form bg-white max-w-sm border-2 border-black p-5 rounded-lg border-b-6">
+<section id="stock-buddy-popup" class="font-sans text-black z-50 w-full fixed top-0 right-0 shadow-xl new-event-form bg-white max-w-sm border-2 border-black p-5 rounded-lg border-b-6">
   <header class="flex mb-5 pl-1 items-center justify-between">
     <span id="stock-name-container" class="text-2xl text-black font-extrabold">New event!</span>
   </header>
@@ -24,7 +24,7 @@ function destroyPopup() {
 
 function updatePopup(left, top, stock) {
   const stockContainer = shadowRoot.querySelector("#stock-name-container");
-  const renderedPopup = shadowRoot.querySelector("#popup");
+  const renderedPopup = queryPopup();
   renderedPopup.style.left = `${left}px`
   renderedPopup.style.top = `${top - window.scrollY}px`
   stockContainer.textContent = stock;
@@ -63,14 +63,28 @@ function labelStonks() {
   }
 }
 
+function queryPopup() {
+  return shadowRoot.querySelector("#stock-buddy-popup");
+}
+
 function popupExists() {
-  const popup = shadowRoot.querySelector("#stock-name-container");
+  const popup = queryPopup();
   switch(popup.style.visibility) {
     case "visible":
       return true
     case "hidden":
       return false
   }
+}
+
+function showPopup() {
+  const popup = queryPopup();
+  popup.style.visibility = "visible";
+}
+
+function hidePopup() {
+  const popup = queryPopup();
+  popup.style.visibility = "hidden";
 }
 
 function addSingleEventListener(stonk) {
@@ -81,6 +95,9 @@ function addSingleEventListener(stonk) {
     }
     updatePopup(e.pageX, e.pageY, e.target.text);
   });
+  stonk.addEventListener("mouseout", e => {
+    hidePopup();
+  })
 }
 
 function addEventListenersSpecific(stonks) {
