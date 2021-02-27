@@ -1,26 +1,29 @@
 {
   "name": "stock-buddy",
   "version": "0.0.1",
-  "description": "makes stock tickers come to life on the page",
-  "repository": "https://github.com/ecalzo/stock-buddy",
-  "author": "Evan Calzolaio",
+  "description": "Making stocks come to life on the page",
+  "repository": "git@github.com:Ecalzo/stock-buddy.git",
+  "author": "ecalzo <evancalz@me.com>",
   "license": "MIT",
-  "devDependencies": {
-    "@tailwindcss/postcss7-compat": "^2.0.3",
-    "autoprefixer": "^9",
-    "parcel": "^2.0.0-beta.1",
-    "postcss": "^7",
-    "postcss-import": "^12.0.0",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
-  },
-  "dependencies": {
-    "crx-hotreload": "^1.0.6",
-    "yarn": "^1.22.10"
-  },
   "scripts": {
     "prebuild": "rm -rf dist .cache .parcel-cache",
     "build:tailwind": "tailwindcss build src/style.css -c ./tailwind.config.js -o dist/style.css",
-    "watch": "NODE_ENV=development yarn build:tailwind && cp src/manifest.json dist/ && parcel watch --no-hmr src/{background.js,content-script.js}",
+    "watch": "NODE_ENV=development yarn build:tailwind && cp src/manifest.json dist/ && parcel watch src/background.js src/content-script.js",
     "build": "NODE_ENV=production yarn build:tailwind && cp src/manifest.json dist/ && parcel build src/{background.js, content-script.js}"
+  },
+  "devDependencies": {
+    "@parcel/packager-css": "2.0.0-nightly.612",
+    "@parcel/transformer-css": "2.0.0-nightly.612",
+    "@parcel/transformer-inline-string": "2.0.0-nightly.612",
+    "@parcel/transformer-postcss": "2.0.0-nightly.612",
+    "autoprefixer": "^9.0.0",
+    "parcel": "^2.0.0-nightly.610",
+    "postcss": "^8.2.6",
+    "postcss-import": "^14.0.0"
+  },
+  "dependencies": {
+    "babel": "^6.23.0",
+    "crx-hotreload": "^1.0.6",
+    "tailwindcss": "^2.0.3"
   }
 }

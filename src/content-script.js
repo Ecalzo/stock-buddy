@@ -4,7 +4,7 @@ const html =
 `
 <style>${cssText}</style>
 
-<section id="stock-buddy-popup" class="font-sans text-black z-50 w-full fixed top-0 right-0 shadow-xl new-event-form bg-white max-w-sm border-2 border-black p-5 rounded-lg border-b-6">
+<section id="stock-buddy-popup" style="visibility: hidden" class="font-sans text-black z-50 w-full fixed top-0 right-0 shadow-xl new-event-form bg-white max-w-sm border-2 border-black p-5 rounded-lg border-b-6">
   <header class="flex mb-5 pl-1 items-center justify-between">
     <span id="stock-name-container" class="text-2xl text-black font-extrabold">New event!</span>
   </header>
@@ -18,15 +18,11 @@ const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
 
 shadowRoot.innerHTML = html;
 
-function destroyPopup() {
-
-}
-
 function updatePopup(left, top, stock) {
   const stockContainer = shadowRoot.querySelector("#stock-name-container");
   const renderedPopup = queryPopup();
-  renderedPopup.style.left = `${left}px`
-  renderedPopup.style.top = `${top - window.scrollY}px`
+  renderedPopup.style.left = `${left}px`;
+  renderedPopup.style.top = `${top - window.scrollY}px`;
   stockContainer.textContent = stock;
 }
 
